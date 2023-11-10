@@ -44,6 +44,8 @@ jobs:
       - name: Pull the docker image
         run: docker pull krishna7200/netflix:latest
       - name: Trivy image scan
-        run: docker run --rm -v $(pwd):/workdir aquasec/trivy trivy image krishna7200/netflix:latest
+        run: docker run --rm -v $(pwd):/workdir aquasec/trivy /usr/local/bin/trivy image krishna7200/netflix:latest
+      - name: Display trivy installation path
+        run: docker run --rm -v $(pwd):/workdir aquasec/trivy which trivy
       - name: Run the container netflix
         run: docker run -d --name netflix -p 8081:80 krishna7200/netflix:latest
