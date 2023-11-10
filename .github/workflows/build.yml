@@ -38,3 +38,14 @@ jobs:
           docker push krishna7200/netflix:latest
         env:
           DOCKER_CLI_ACI: 1
+
+        deploy:    
+          needs: build-analyze-scan  
+          runs-on: [aws-netflix]  #use your label here
+          steps:
+            - name: Pull the docker image
+              run: docker pull krishna7200/netflix:latest
+            - name: Trivy image scan
+              run: trivy image krishna7200/netflix:latest
+            - name: Run the container netflix
+              run: docker run -d --name netflix -p 8081:80 krishna7200/netflix:latest
